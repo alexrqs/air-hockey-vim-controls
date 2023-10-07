@@ -2,7 +2,8 @@
 
 ## how to run
 
-- install lua
+- install lua `brew install lua`
+- install luarocks `brew install luarocks`
 - install love `brew install love`
 - `$ love ./`
 
