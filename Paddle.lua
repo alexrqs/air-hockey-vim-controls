@@ -18,7 +18,6 @@ end
 
 function Paddle:update(dt)
     -- TODO add fps for debugging
-    print('update')
     if self.dy < 0 then
         self.y = math.max(0, self.y + self.dy * dt)
     else
@@ -26,8 +25,6 @@ function Paddle:update(dt)
     end
     local isLeftField = self.field == 0
 
-    print('isLeftField: ' .. tostring(isLeftField))
-    print('self.dx: ' .. self.dx)
     if isLeftField then
 
         if self.dx < 0 then
@@ -61,7 +58,6 @@ function Paddle:moveLeft()
 end
 
 function Paddle:moveRight()
-    print('moveRight inside Paddle', self.dx, PADDLE_SPEED)
     self.dx = PADDLE_SPEED
 end
 

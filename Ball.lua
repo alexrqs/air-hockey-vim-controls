@@ -11,7 +11,6 @@ end
 function Ball:collides(paddle)
     local ball = self
 
-    -- print('ball.x: ' .. ball.x .. ' ball.y: ' .. ball.y .. ' paddle.x: ' .. paddle.x .. ' paddle.y: ' .. paddle.y .. ' paddle.height: ' .. paddle.height .. ' paddle.width: ' .. paddle.width)
     -- TODO also take in consideration the GAP between the paddle and the end of the screen
     if paddle.x < 100 then
         local collideWithLeftPaddleX = ball.x - ball.radius < paddle.x + paddle.width
@@ -20,9 +19,6 @@ function Ball:collides(paddle)
         local collideWithPaddleYBottom = ball.y + ball.radius < paddle.y + paddle.height
 
         if collideWithLeftFromBehind and collideWithLeftPaddleX and collideWithPaddleYTop and collideWithPaddleYBottom then
-            print('true paddle x < 100 ballx ' .. ball.x .. ' bally ' .. ball.y)
-            print('paddlex ' .. paddle.x .. ' paddley ' .. paddle.y)
-            print('paddleheight ' .. paddle.height .. ' paddlewidth ' .. paddle.width)
             return true
         end
 
@@ -52,8 +48,11 @@ end
 function Ball:update(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+    love.graphics.setColor(59, 25, 155, 0.6)
 end
 
 function Ball:render()
+    love.graphics.setColor(59, 25, 155, 0.6)
     love.graphics.circle('fill', self.x, self.y, self.radius)
+    love.graphics.setColor(255, 55, 255, 1)
 end

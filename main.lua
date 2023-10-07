@@ -3,7 +3,7 @@
 -- a more retro aesthetic
 --
 -- https://github.com/Ulydev/push
-push = require 'push'
+local push = require 'push'
 
 -- the "Class" library allow us to represent anything in
 -- our game as code, rather than keeping track of many disparate variables and
@@ -25,9 +25,13 @@ VIRTUAL_HEIGHT = WINDOW_HEIGHT / 4
 BALL_RADIUS = 4
 BALL_SPEED = 135
 
+SCORE_TO_WIN = 10
+
 function love.load()
     -- important for a nice crisp, 2D look
     love.graphics.setDefaultFilter('nearest', 'nearest')
+    -- love.graphics.setDefaultFilter("linear", "linear") -- default filter
+
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         borderless = true
     })
@@ -48,8 +52,14 @@ function love.load()
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         resizable = false,
-        vsync = true
+        vsync = true,
+        canvas = true
     })
+    push:setBorderColor{0, 0, 0} -- default value
+
+    background = love.graphics.newImage("background.png")
+
+    -- push:setBorderColor(30, 30, 30, 0.5) -- also accepts a table
 
     -- place a ball in the middle of the screen
     ball = Ball((VIRTUAL_WIDTH / 2) - BALL_RADIUS, (VIRTUAL_HEIGHT / 2) - BALL_RADIUS, BALL_RADIUS)
@@ -136,7 +146,7 @@ function love.update(dt)
             player2Score = player2Score + 1
             sounds['score']:play()
 
-            if player2Score == 10 then
+            if player2Score == SCORE_TO_WIN then
                 winningPlayer = 2
                 gameState = 'done'
             else
@@ -150,7 +160,7 @@ function love.update(dt)
             player1Score = player1Score + 1
             servingPlayer = 2
 
-            if player1Score == 5 then
+            if player1Score == SCORE_TO_WIN then
                 winningPlayer = 1
                 gameState = 'done'
             else
@@ -167,7 +177,6 @@ function love.update(dt)
     elseif love.keyboard.isDown('s') then
         player1:moveLeft()
     elseif love.keyboard.isDown('g') then
-        print('move right')
         player1:moveRight()
     else
         player1:stop()
@@ -222,9 +231,13 @@ function love.draw()
     -- begin drawing with push, in our virtual resolution
     push:start()
 
+    -- love.graphics.clear(40, 45, 52, 0.2)
+    love.graphics.draw(background, 0, 0, 0, 5, 2.85)
+    love.graphics.setColor(50, 100, 150)
+    -- love.graphics.rectangle("fill", 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     -- same as request animation frame in js content has to be erased
-    love.graphics.clear(40, 45, 52, 255)
 
+    -- love.graphics.setColor(255, 100, 150)
     -- render different things depending on which part of the game we're in
     if gameState == 'start' then
         -- UI messages
@@ -254,7 +267,8 @@ function love.draw()
     ball:render()
 
     -- end our drawing to push
-    push:apply('end')
+    -- push:apply('end')
+    push:finish()
 end
 
 function displayScore(scoreP1, scoreP2)
