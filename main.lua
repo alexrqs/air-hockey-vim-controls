@@ -51,31 +51,24 @@ function love.load()
         vsync = true
     })
 
-    -- initialize our player paddles; make them global so that they can be
-    -- detected by other functions and modules
-    player1 = Paddle(10, 30, 5, 20)
-    player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
-
     -- place a ball in the middle of the screen
     ball = Ball((VIRTUAL_WIDTH / 2) - BALL_RADIUS, (VIRTUAL_HEIGHT / 2) - BALL_RADIUS, BALL_RADIUS)
 
+    -- 0 at the end for left field, 1 for right field
+    player1 = Paddle(10, 30, 5, 20, 0)
+    player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20, 1)
     -- initialize score variables
     player1Score = 0
     player2Score = 0
 
-    -- either going to be 1 or 2; whomever is scored on gets to serve the
-    -- following turn
     servingPlayer = 1
 
-    -- player who won the game; not set to a proper value until we reach
-    -- that state in the game
     winningPlayer = 0
 
-    -- the state of our game; can be any of the following:
-    -- 1. 'start' (the beginning of the game, before first serve)
-    -- 2. 'serve' (waiting on a key press to serve the ball)
-    -- 3. 'play' (the ball is in play, bouncing between paddles)
-    -- 4. 'done' (the game is over, with a victor, ready for restart)
+    -- 1. 'start' 
+    -- 2. 'serve' waiting
+    -- 3. 'play' 
+    -- 4. 'done'
     gameState = 'start'
 end
 
@@ -171,6 +164,11 @@ function love.update(dt)
         player1:moveUp()
     elseif love.keyboard.isDown('f') then
         player1:moveDown()
+    elseif love.keyboard.isDown('s') then
+        player1:moveLeft()
+    elseif love.keyboard.isDown('g') then
+        print('move right')
+        player1:moveRight()
     else
         player1:stop()
     end
@@ -179,6 +177,10 @@ function love.update(dt)
         player2:moveUp()
     elseif love.keyboard.isDown('j') then
         player2:moveDown()
+    elseif love.keyboard.isDown('h') then
+        player2:moveLeft()
+    elseif love.keyboard.isDown('l') then
+        player2:moveRight()
     else
         player2:stop()
     end
