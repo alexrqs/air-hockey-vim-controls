@@ -36,8 +36,6 @@ function love.load()
         borderless = true
     })
 
-    math.randomseed(os.time())
-
     smallFont = love.graphics.newFont('font.ttf', 8)
     largeFont = love.graphics.newFont('font.ttf', 16)
     scoreFont = love.graphics.newFont('Nabla.ttf', 64)
@@ -250,7 +248,7 @@ function love.draw()
         love.graphics.printf('Press Space to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'play' then
         love.graphics.setFont(smallFont)
-        love.graphics.printf('Get that mother fucker!', 0, 20, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Get that punk!', 0, 20, VIRTUAL_WIDTH, 'center')
 
         -- TODO implement a sassy function about bullying the other player
     elseif gameState == 'done' then
